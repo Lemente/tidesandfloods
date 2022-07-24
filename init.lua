@@ -62,7 +62,7 @@ minetest.register_chatcommand("tide", {
 })
 
 -- SEAWATER
-minetest.register_node("tides:seawater", {
+minetest.register_node(":tides:seawater", {
 	description = ("tides:seawater : still water"),
 	drawtype = "liquid",
 	waving = 3,
@@ -109,7 +109,7 @@ minetest.register_node("tides:seawater", {
 	--sounds = default.node_sound_water_defaults(),
 })
 
-minetest.register_node("tides:wave", {
+minetest.register_node(":tides:wave", {
 	description = ("tides:wave"),
 	drawtype = "flowingliquid",
 	waving = 3,
@@ -159,7 +159,7 @@ minetest.register_node("tides:wave", {
 })
 
 --SHOREWATER
-minetest.register_node("tides:shorewater", {
+minetest.register_node(":tides:shorewater", {
 	description = ("tides:shorewater : makes tides go down"),
 	drawtype = "liquid",
 	waving = 3,
@@ -207,7 +207,7 @@ minetest.register_node("tides:shorewater", {
 })
 
 -- OFFSHORE_WATER
-minetest.register_node("tides:offshore_water", {
+minetest.register_node(":tides:offshore_water", {
 	description = ("tides:offshore_water : make tides rise"),
 	drawtype = "liquid",
 	waving = 3,
