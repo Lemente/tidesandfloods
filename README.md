@@ -19,20 +19,20 @@ Some of those nodes contain an LBM so loading mapblocks will "catchup" instantan
 
 # To Do
 
-- fix node names
-- re-implement naturally occurring tides
+## first
 - save tide level per world
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
-- tweak texture colors
 - re-implement filling "pools" that stays filled at low tide
-- improve river connections?
+## next
+- fix liquid swimming physics
 - handle vegetation
 - handle floating things (I'll probably directly edit things like lilypads so they fall, but then they have to float upward somehow)
-- fix liquid swimming physics
-- find what I am missing
+- re-implement naturally occurring tides
+## later
+- tweak texture colors
+- improve river connections?
 - make all water nodes work with the bucket
 - create new seawater node not affected by tides
-- change command /tide to /sealevel?
 
 # Futur plans
 
