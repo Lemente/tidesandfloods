@@ -2,7 +2,10 @@ local abm_long_delay = 10
 local abm_short_delay = 0.2
 
 local get_node = minetest.get_node
-local sealevel = tidesandfloods.sealevel
+--local tidesandfloods.sealevel = tidesandfloods.tidesandfloods.sealevel
+
+--storage = minetest.get_mod_storage()
+--local sealevel = tidesandfloods.sealevel
 
 local water_or_air = {
 		["air"] = true, -- a list of nodes that should not be considered land/shore
@@ -50,7 +53,7 @@ minetest.register_abm({
 	chance = 1,
 	catch_up = false,
 	action=function(pos,node)
-		if pos.y < sealevel then
+		if pos.y < tidesandfloods.sealevel then
 			local cardinal_node = {get_node({x=pos.x+1, y=pos.y, z=pos.z}).name,
 								   get_node({x=pos.x-1, y=pos.y, z=pos.z}).name,
 								   get_node({x=pos.x, y=pos.y, z=pos.z+1}).name,
@@ -97,7 +100,7 @@ minetest.register_abm({
 		local edge_x = pos.x % 16
 		local edge_z = pos.z % 16
 		-- TIDE GOES DOWN
-		if pos.y > sealevel then
+		if pos.y > tidesandfloods.sealevel then
 			minetest.set_node(pos,{name="air"})
 			minetest.after(0.1, function()
 				for i = 1,4 do
@@ -126,7 +129,7 @@ minetest.register_abm({
 				end
 			--minetest.set_node(pos,{name="air"})
 		-- TIDE GOES UP
-		elseif pos.y <= sealevel then
+		elseif pos.y <= tidesandfloods.sealevel then
 			-- look for air around, set wave there, become seawater
 			for i = 1,4 do
 				if air_and_friends[cardinal_node[i]] then
@@ -214,9 +217,9 @@ minetest.register_abm({
 								    get_node(cardinal_down_pos[3]).name,
 								    get_node(cardinal_down_pos[4]).name}
 ]]
-		if pos.y > sealevel then
+		if pos.y > tidesandfloods.sealevel then
 			minetest.set_node(pos,{name="tides:wave"})
-	elseif pos.y <= sealevel then
+	elseif pos.y <= tidesandfloods.sealevel then
 			local count_water = 0
 			for j = 1,4 do
 				if air_and_friends[cardinal_node[j]] then

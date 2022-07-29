@@ -1,7 +1,21 @@
 local modpath = minetest.get_modpath("tidesandfloods")
 
+
 tidesandfloods = {sealevel = 1}
---local sealevel = tidesandfloods.sealevel
+
+storage = minetest.get_mod_storage()
+tidesandfloods.sealevel = tonumber(storage:get_int("sealevel"))
+
+--if tidesandfloods.sealevel == nil then
+--	storage:set_string("sealevel", 1)
+--end
+
+function set_sealevel(v)
+    tidesandfloods.sealevel = tonumber(v)
+    minetest.chat_send_all("tidesandfloods.sealevel = " .. tostring(v))
+    return storage:set_int("sealevel", tonumber(v))-- , "sealevel height = " .. tostring(v)
+end
+
 
 dofile(modpath .. "/nodes.lua")
 --dofile(modpath .. "/command.lua")
@@ -18,11 +32,11 @@ minetest.register_chatcommand("sealevel", {
     description = "choose sealevel height",
     privs = {sealevel=true},
     func = function(name, param)
-    if tonumber(param) == nil then
-    return false, "Current sealevel is " .. tostring(tidesandfloods.sealevel)--"Missing or incorrect parameter?"
+    if tonumber(param) == nil then--or type(param) ~= number then
+        return false, "Current sealevel is " .. tostring(tidesandfloods.sealevel) .. " ; type = " .. type(param)--"Missing or incorrect parameter?"
     else
-    tidesandfloods.sealevel = tonumber(param)
-    return true , "sealevel height = " .. tostring(tidesandfloods.sealevel)
+        set_sealevel(tonumber(param))
+        return true
     end
   end
 })

@@ -1,5 +1,8 @@
 local get_node = minetest.get_node
-local sealevel = tidesandfloods.sealevel
+--local tidesandfloods.sealevel = tidesandfloods.tidesandfloods.sealevel
+
+--storage = minetest.get_mod_storage()
+--local sealevel = tidesandfloods.sealevel
 
 local water_or_air = {
 		["air"] = true, -- a list of nodes that should not be considered land/shore
@@ -102,14 +105,14 @@ minetest.register_lbm({
 		local edge_x = pos.x % 16
 		local edge_z = pos.z % 16
 
-		if pos.y > sealevel then
+		if pos.y > tidesandfloods.sealevel then
 --			minetest.after(1, function()
 			--minetest.chat_send_all("LBM : found tides:seawater above tide level")
 			minetest.remove_node(pos)
 			minetest.set_node(pos,{name="air"})
 --			end)
 			-- CHANGE NODES BELOW
-		if pos.y == sealevel + 1 then
+		if pos.y == tidesandfloods.sealevel + 1 then
 				if get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "tides:seawater" then -- make node below wave or mapblock edge
 					if (edge_x == 0 or edge_x == 15) and (edge_z == 0 or edge_z == 15) then -- if node border mapblock
 						minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:offshore_water"})
@@ -128,10 +131,10 @@ minetest.register_lbm({
 		end
 		local node_above = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name
 		if air_and_friends[node_above] then
-			if pos.y > sealevel then
+			if pos.y > tidesandfloods.sealevel then
 				minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="air"})
-			elseif pos.y < sealevel then
-				local tide_diff = sealevel-pos.y
+			elseif pos.y < tidesandfloods.sealevel then
+				local tide_diff = tidesandfloods.sealevel-pos.y
 				for i = 1,tide_diff do
 					local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
 					if air_and_friends[node_above_i] then
@@ -158,9 +161,9 @@ minetest.register_lbm({
 								    get_node(cardinal_down_pos[2]).name,
 								    get_node(cardinal_down_pos[3]).name,
 								    get_node(cardinal_down_pos[4]).name}
-		if pos.y>sealevel then
+		if pos.y>tidesandfloods.sealevel then
 			minetest.remove_node(pos)
-			if pos.y == sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
+			if pos.y == tidesandfloods.sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
 				for i = 1,4 do
 					if water_or_air[cardinal_down_node[i]] == nil then
 						minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:shorewater"})
@@ -174,10 +177,10 @@ minetest.register_lbm({
 		end
 		local node_above = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name
 		if air_and_friends[node_above] then
---			if pos.y > sealevel then
+--			if pos.y > tidesandfloods.sealevel then
 --				minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="air"})
-			if pos.y < sealevel then
-				local tide_diff = sealevel-pos.y
+			if pos.y < tidesandfloods.sealevel then
+				local tide_diff = tidesandfloods.sealevel-pos.y
 				for i = 1,tide_diff do
 					local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
 					if air_and_friends[node_above_i] then
@@ -195,19 +198,19 @@ minetest.register_lbm({
 	nodenames = {"tides:offshore_water"},
 	run_at_every_load=true,
 	action = function(pos,node)
-		if pos.y > sealevel then
+		if pos.y > tidesandfloods.sealevel then
 			minetest.remove_node(pos)
-			if pos.y == sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
+			if pos.y == tidesandfloods.sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
 				minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:offshore_water"})
 				do return end
 			end
 		end
 		local node_above = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name
 		if air_and_friends[node_above] then
---			if pos.y > sealevel then
+--			if pos.y > tidesandfloods.sealevel then
 --				minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="air"})
-			if pos.y < sealevel then
-				local tide_diff = sealevel-pos.y
+			if pos.y < tidesandfloods.sealevel then
+				local tide_diff = tidesandfloods.sealevel-pos.y
 				for i = 1,tide_diff do
 					local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
 					if air_and_friends[node_above_i] then
