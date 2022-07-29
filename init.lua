@@ -4,11 +4,12 @@ local modpath = minetest.get_modpath("tidesandfloods")
 tidesandfloods = {sealevel = 1}
 
 storage = minetest.get_mod_storage()
+if tonumber(storage:get_int("sealevel")) == nil then
+    storage:set_string("sealevel", 1)
+end
 tidesandfloods.sealevel = tonumber(storage:get_int("sealevel"))
 
---if tidesandfloods.sealevel == nil then
---	storage:set_string("sealevel", 1)
---end
+
 
 function set_sealevel(v)
     tidesandfloods.sealevel = tonumber(v)
