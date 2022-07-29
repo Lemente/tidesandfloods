@@ -32,7 +32,6 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 # To Do
 
 ## first
-- save tide level per world
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
 - re-implement filling "pools" that stays filled at low tide
 ## next
