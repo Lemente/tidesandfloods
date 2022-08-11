@@ -38,6 +38,7 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - re-implement naturally occurring tides
 - load visible mapblock once to update their tide levels (avoid messy looking horizon)
 - fixe shorewater forming around vegetation
+- fixe shorewater lines forming with LBMs
 ## later
 - tweak texture colors
 - improve river connections?
@@ -47,7 +48,7 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - make plants turn into plantmatter layer, make it float, react to moving water, deposit as wrack lines
 - or turn plants into items
 - trigger falling lilypads
-
+- add tidal currents/water currents
 
 
 https://user-images.githubusercontent.com/27686967/181776097-257afdd9-03cc-4dd6-96d9-9ea23b6b80a6.mp4
