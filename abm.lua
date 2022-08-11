@@ -80,7 +80,6 @@ minetest.register_abm({
 --				if cardinal_node[i] == ignore then
 --					minetest.chat_send_all(tostring(cardinal_node[i]))
 					minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="tides:offshore_water"})
-					
 				break
 				end
 			end
@@ -158,7 +157,25 @@ minetest.register_abm({
 		elseif pos.y <= tidesandfloods.sealevel then
 			-- look for air around, set wave there, become seawater
 			for i = 1,4 do
-				if air_and_friends[cardinal_node[i]] then
+			local drawtype = minetest.registered_nodes[cardinal_node[i]].drawtype
+			local plant = minetest.get_item_group(cardinal_node[i], "flora") + minetest.get_item_group(cardinal_node[i], "grass") + minetest.get_item_group(cardinal_node[i], "flowers") + minetest.get_item_group(cardinal_node[i], "sapling")
+			local float = minetest.get_item_group(cardinal_node[i], "float")
+				if air_and_friends[cardinal_node[i]]
+					or drawtype == plantlike
+					or plant >= 1
+					or float >= 1
+					then
+					-- make things from float group rise with the tide
+					if float >= 1 then
+						local cardinal_pos_up = vector.add(cardinal_pos[i],(vector.new(0,1,0)))
+						local cardinal_node_up = get_node(cardinal_pos_up).name
+						if air_and_friends[cardinal_node_up] then
+--							local float_node = cardinal_node[i]
+							minetest.set_node(cardinal_pos[i], {name = tostring(cardinal_node_up)})
+							minetest.set_node(cardinal_pos_up, {name = cardinal_node[i]})
+						else break
+						end
+					end
 					--minetest.chat_send_all("found air")
 					minetest.after(0.1, function()
 						minetest.set_node(cardinal_pos[i],{name="tides:wave"})

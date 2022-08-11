@@ -22,8 +22,10 @@ dofile(modpath .. "/nodes.lua")
 --dofile(modpath .. "/command.lua")
 dofile(modpath .. "/lbm.lua")
 dofile(modpath .. "/abm.lua")
-
-
+--to do : check if mod flowers exist, make it a dependency
+if minetest.get_modpath("flowers") ~= nil then
+    dofile(modpath .. "/waterlily.lua")
+end
 
 --TIDE ON COMMAND
 minetest.register_privilege("sealevel", "player can use /sealevel command")
