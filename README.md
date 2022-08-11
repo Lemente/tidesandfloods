@@ -33,16 +33,18 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 
 ## first
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
-- re-implement filling "pools" that stays filled at low tide
-## next
 - handle vegetation
 - handle floating things (I'll probably directly edit things like lilypads so they fall, but then they have to float upward somehow)
+## next
+- re-implement filling "pools" that stays filled at low tide
 - re-implement naturally occurring tides
+- load visible mapblock once to update their tide levels (avoid messy looking horizon)
 ## later
 - tweak texture colors
 - improve river connections?
 - make all water nodes work with the bucket
 - create new seawater node not affected by tides
+
 
 
 
