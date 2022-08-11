@@ -19,10 +19,8 @@ end
 
 
 dofile(modpath .. "/nodes.lua")
---dofile(modpath .. "/command.lua")
 dofile(modpath .. "/lbm.lua")
 dofile(modpath .. "/abm.lua")
---to do : check if mod flowers exist, make it a dependency
 if minetest.get_modpath("flowers") ~= nil then
     dofile(modpath .. "/waterlily.lua")
 end
@@ -36,16 +34,13 @@ minetest.register_chatcommand("sealevel", {
     privs = {sealevel=true},
     func = function(name, param)
     if tonumber(param) == nil then--or type(param) ~= number then
-        return false, "Current sealevel is " .. tostring(tidesandfloods.sealevel) .. " ; type = " .. type(param)--"Missing or incorrect parameter?"
+        return false, "Current sealevel is " .. tostring(tidesandfloods.sealevel) .. " ; type = " .. type(param)
     else
         set_sealevel(tonumber(param))
         return true
     end
   end
 })
-
---if minetest.compare_block_status(cardinal_pos[i], "active") ~= true then
-
 
 minetest.register_chatcommand("compare_block_status", {
     params = "<name> <X>,<Y>,<Z>",
@@ -58,7 +53,8 @@ minetest.register_chatcommand("compare_block_status", {
         p = vector.apply(p, tonumber)
         if status and p.x and p.y and p.z then
             return minetest.chat_send_all(
-                tostring(status) .." at (" .. tostring(p.x) .. ", " .. tostring(p.y) .. ", " .. tostring(p.z) .. ") " .. " is " .. tostring(minetest.compare_block_status(p, tostring(status))))
+                tostring(status) .." at (" .. tostring(p.x) .. ", " .. tostring(p.y) .. ", " .. tostring(p.z) .. ") "
+                .. " is " .. tostring(minetest.compare_block_status(p, tostring(status))))
         end
     end,
 })

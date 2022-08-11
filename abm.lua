@@ -2,13 +2,10 @@ local abm_long_delay = 10
 local abm_short_delay = 0.2
 
 local get_node = minetest.get_node
---local tidesandfloods.sealevel = tidesandfloods.tidesandfloods.sealevel
 
---storage = minetest.get_mod_storage()
---local sealevel = tidesandfloods.sealevel
-
+-- a list of nodes that should not be considered land/shore
 local water_or_air = {
-		["air"] = true, -- a list of nodes that should not be considered land/shore
+		["air"] = true,
 		["default:water_source"] = true,
 		["default:water_flowing"] = true,
 --		["default:river_water_source"] = true,
@@ -23,8 +20,9 @@ local water_or_air = {
 		["ignore"] = true --/!\--
 		}
 
+-- To DO : target every airlike node?
 local air_and_friends = {
-		["air"] = true, -- how to target every airlike node?
+		["air"] = true,
 		["default:water_flowing"] = true,
 		["default:river_water_flowing"] = true,
 --		["tides:wave"] = true,
@@ -69,16 +67,8 @@ minetest.register_abm({
 			minetest.set_node(pos,{name="tides:seawater"})
 			for i = 1,4 do
 			local status = "active"
-				minetest.chat_send_all(
-                tostring(status) .." at (" .. tostring(cardinal_pos[i].x) .. ", " .. tostring(cardinal_pos[i].y) .. ", " .. tostring(cardinal_pos[i].z) .. ") " .. " is " ..  
-					tostring(minetest.compare_block_status(cardinal_pos[i], status))
-				)
 				if minetest.compare_block_status(cardinal_pos[i], status) ~= true then
-					minetest.chat_send_all(
-						i .. tostring(minetest.compare_block_status(cardinal_pos[i], status))
-					)
 --				if cardinal_node[i] == ignore then
---					minetest.chat_send_all(tostring(cardinal_node[i]))
 					minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="tides:offshore_water"})
 				break
 				end
@@ -129,7 +119,6 @@ minetest.register_abm({
 			minetest.set_node(pos,{name="air"})
 			minetest.after(0.1, function()
 				for i = 1,4 do
-					--minetest.chat_send_all(tostring(cardinal_node[i]))
 					if water_and_friends[cardinal_node[i]] and cardinal_node[i] ~= "tides:wave" then
 						 minetest.set_node(cardinal_pos[i],{name="tides:wave"})
 					end
@@ -139,11 +128,8 @@ minetest.register_abm({
 				if get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "tides:seawater" then -- make node below wave or mapblock edge
 					if (edge_x == 0 or edge_x == 15) and (edge_z == 0 or edge_z == 15) then -- if node border mapblock
 						minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:offshore_water"})
---						minetest.chat_send_all("mapblock corner found")
 						do return end
 					end
-
-		--			minetest.chat_send_all("no mapblock corner found, add waves below")
 					for i = 1,4 do
 						if water_or_air[cardinal_down_node[i]] == nil then
 							minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:shorewater"})
@@ -158,11 +144,13 @@ minetest.register_abm({
 			-- look for air around, set wave there, become seawater
 			for i = 1,4 do
 			local drawtype = minetest.registered_nodes[cardinal_node[i]].drawtype
-			local plant = minetest.get_item_group(cardinal_node[i], "flora") + minetest.get_item_group(cardinal_node[i], "grass") + minetest.get_item_group(cardinal_node[i], "flowers") + minetest.get_item_group(cardinal_node[i], "sapling")
+			local plant = minetest.get_item_group(cardinal_node[i], "flora")
+			+ minetest.get_item_group(cardinal_node[i], "grass")
+			+ minetest.get_item_group(cardinal_node[i], "flowers")
+			+ minetest.get_item_group(cardinal_node[i], "sapling")
 			local float = minetest.get_item_group(cardinal_node[i], "float")
 				if air_and_friends[cardinal_node[i]]
-					or drawtype == plantlike
-					or plant >= 1
+					or (drawtype == "plantlike" and plant >= 1)
 					or float >= 1
 					then
 					-- make things from float group rise with the tide
@@ -240,26 +228,18 @@ minetest.register_abm({
 	chance = 1,
 	catch_up = false,
 	action=function(pos,node)
-		local cardinal_pos =  {{x=pos.x+1, y=pos.y, z=pos.z},
-							   {x=pos.x-1, y=pos.y, z=pos.z},
-							   {x=pos.x, y=pos.y, z=pos.z+1},
-							   {x=pos.x, y=pos.y, z=pos.z-1}}
-
-		local cardinal_node = {get_node(cardinal_pos[1]).name,
-							   get_node(cardinal_pos[2]).name,
-							   get_node(cardinal_pos[3]).name,
-							   get_node(cardinal_pos[4]).name}
-
---[[		local cardinal_down_pos =  {{x=pos.x+1, y=pos.y-1, z=pos.z},
-								    {x=pos.x-1, y=pos.y-1, z=pos.z},
-								    {x=pos.x, y=pos.y-1, z=pos.z+1},
-								    {x=pos.x, y=pos.y-1, z=pos.z-1}}
-]]
---[[		local cardinal_down_node = {get_node(cardinal_down_pos[1]).name,
-								    get_node(cardinal_down_pos[2]).name,
-								    get_node(cardinal_down_pos[3]).name,
-								    get_node(cardinal_down_pos[4]).name}
-]]
+		local cardinal_pos =  {
+			{x=pos.x+1, y=pos.y, z=pos.z},
+			{x=pos.x-1, y=pos.y, z=pos.z},
+			{x=pos.x, y=pos.y, z=pos.z+1},
+			{x=pos.x, y=pos.y, z=pos.z-1}
+		}
+		local cardinal_node = {
+			get_node(cardinal_pos[1]).name,
+			get_node(cardinal_pos[2]).name,
+			get_node(cardinal_pos[3]).name,
+			get_node(cardinal_pos[4]).name
+		}
 		if pos.y > tidesandfloods.sealevel then
 			minetest.set_node(pos,{name="tides:wave"})
 	elseif pos.y <= tidesandfloods.sealevel then

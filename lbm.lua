@@ -1,11 +1,8 @@
 local get_node = minetest.get_node
---local tidesandfloods.sealevel = tidesandfloods.tidesandfloods.sealevel
 
---storage = minetest.get_mod_storage()
---local sealevel = tidesandfloods.sealevel
-
+-- a list of nodes that should not be considered land/shore
 local water_or_air = {
-		["air"] = true, -- a list of nodes that should not be considered land/shore
+		["air"] = true,
 		["default:water_source"] = true,
 		["default:water_flowing"] = true,
 --		["default:river_water_source"] = true,
@@ -20,8 +17,9 @@ local water_or_air = {
 		["ignore"] = true --/!\--
 		}
 
+-- To DO : target every airlike node?
 local air_and_friends = {
-		["air"] = true, -- how to target every airlike node?
+		["air"] = true,
 		["default:water_flowing"] = true,
 		["default:river_water_flowing"] = true,
 --		["tides:wave"] = true,
@@ -46,16 +44,16 @@ local water_and_friends = {
 minetest.register_lbm({
 	name="tidesandfloods:water_source_lbm",
 	nodenames = {"default:water_source"},
-	--neighbors = {"air"},
 	run_at_every_load=true,
 	action = function(pos,node)
-		--minetest.chat_send_all("LBM running")
-		local check_node = {["east"] = get_node({x=pos.x+1, y=pos.y, z=pos.z}).name,
-							["west"] = get_node({x=pos.x-1, y=pos.y, z=pos.z}).name,
-							["up"]   = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name,
-							["down"] = get_node({x=pos.x, y=pos.y-1, z=pos.z}).name,
-							["north"] = get_node({x=pos.x, y=pos.y, z=pos.z+1}).name,
-							["south"] = get_node({x=pos.x, y=pos.y, z=pos.z-1}).name}
+		local check_node = {
+			["east"] = get_node({x=pos.x+1, y=pos.y, z=pos.z}).name,
+			["west"] = get_node({x=pos.x-1, y=pos.y, z=pos.z}).name,
+			["up"]   = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name,
+			["down"] = get_node({x=pos.x, y=pos.y-1, z=pos.z}).name,
+			["north"] = get_node({x=pos.x, y=pos.y, z=pos.z+1}).name,
+			["south"] = get_node({x=pos.x, y=pos.y, z=pos.z-1}).name
+		}
 		local cardinal = {"north", "south", "east", "west"}
 		if check_node["up"] == "air" then
 			for i = 1,4 do
@@ -82,32 +80,24 @@ minetest.register_lbm({
 	nodenames = {"tides:seawater"},
 	run_at_every_load=true,
 	action = function(pos,node)
+		local cardinal_down_pos =  {
+			{x=pos.x+1, y=pos.y-1, z=pos.z},
+			{x=pos.x-1, y=pos.y-1, z=pos.z},
+			{x=pos.x, y=pos.y-1, z=pos.z+1},
+			{x=pos.x, y=pos.y-1, z=pos.z-1}
+		}
 
---[[		local cardinal_pos =  {{x=pos.x+1, y=pos.y, z=pos.z},
-							   {x=pos.x-1, y=pos.y, z=pos.z},
-							   {x=pos.x, y=pos.y, z=pos.z+1},
-							   {x=pos.x, y=pos.y, z=pos.z-1}}
-]]
---[[		local cardinal_node = {get_node(cardinal_pos[1]).name,
-							   get_node(cardinal_pos[2]).name,
-							   get_node(cardinal_pos[3]).name,
-							   get_node(cardinal_pos[4]).name}
-]]
-		local cardinal_down_pos =  {{x=pos.x+1, y=pos.y-1, z=pos.z},
-								    {x=pos.x-1, y=pos.y-1, z=pos.z},
-								    {x=pos.x, y=pos.y-1, z=pos.z+1},
-								    {x=pos.x, y=pos.y-1, z=pos.z-1}}
-
-		local cardinal_down_node = {get_node(cardinal_down_pos[1]).name,
-								    get_node(cardinal_down_pos[2]).name,
-								    get_node(cardinal_down_pos[3]).name,
-								    get_node(cardinal_down_pos[4]).name}
+		local cardinal_down_node = {
+			get_node(cardinal_down_pos[1]).name,
+			get_node(cardinal_down_pos[2]).name,
+			get_node(cardinal_down_pos[3]).name,
+			get_node(cardinal_down_pos[4]).name
+		}
 		local edge_x = pos.x % 16
 		local edge_z = pos.z % 16
 
 		if pos.y > tidesandfloods.sealevel then
 --			minetest.after(1, function()
-			--minetest.chat_send_all("LBM : found tides:seawater above tide level")
 			minetest.remove_node(pos)
 			minetest.set_node(pos,{name="air"})
 --			end)
@@ -152,15 +142,18 @@ minetest.register_lbm({
 	nodenames = {"tides:shorewater"},
 	run_at_every_load=true,
 	action = function(pos,node)
-		local cardinal_down_pos =  {{x=pos.x+1, y=pos.y-1, z=pos.z},
-								    {x=pos.x-1, y=pos.y-1, z=pos.z},
-								    {x=pos.x, y=pos.y-1, z=pos.z+1},
-								    {x=pos.x, y=pos.y-1, z=pos.z-1}}
-
-		local cardinal_down_node = {get_node(cardinal_down_pos[1]).name,
-								    get_node(cardinal_down_pos[2]).name,
-								    get_node(cardinal_down_pos[3]).name,
-								    get_node(cardinal_down_pos[4]).name}
+		local cardinal_down_pos =  {
+			{x=pos.x+1, y=pos.y-1, z=pos.z},
+			{x=pos.x-1, y=pos.y-1, z=pos.z},
+			{x=pos.x, y=pos.y-1, z=pos.z+1},
+			{x=pos.x, y=pos.y-1, z=pos.z-1}
+		}
+		local cardinal_down_node = {
+			get_node(cardinal_down_pos[1]).name,
+			get_node(cardinal_down_pos[2]).name,
+			get_node(cardinal_down_pos[3]).name,
+			get_node(cardinal_down_pos[4]).name
+		}
 		if pos.y>tidesandfloods.sealevel then
 			minetest.remove_node(pos)
 			if pos.y == tidesandfloods.sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
