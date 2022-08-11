@@ -33,6 +33,7 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 
 ## first
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
+- make water spread to airlike and floodables nodes
 ## next
 - re-implement filling "pools" that stays filled at low tide
 - re-implement naturally occurring tides
