@@ -49,7 +49,7 @@ minetest.register_node(":tides:seawater", {
 
 minetest.register_node(":tides:wave", {
 	description = ("tides:wave"),
-	drawtype = "none",--"flowingliquid",
+	drawtype = "flowingliquid",--"flowingliquid",
 	waving = 3,
 	tiles = {"default_water.png"},
 	special_tiles = {
