@@ -33,18 +33,20 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 
 ## first
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
-- handle vegetation
-- handle floating things (I'll probably directly edit things like lilypads so they fall, but then they have to float upward somehow)
 ## next
 - re-implement filling "pools" that stays filled at low tide
 - re-implement naturally occurring tides
 - load visible mapblock once to update their tide levels (avoid messy looking horizon)
+- fixe shorewater forming around vegetation
 ## later
 - tweak texture colors
 - improve river connections?
 - make all water nodes work with the bucket
 - create new seawater node not affected by tides
-
+- add plantmatter layer node
+- make plants turn into plantmatter layer, make it float, react to moving water, deposit as wrack lines
+- or turn plants into items
+- trigger falling lilypads
 
 
 
