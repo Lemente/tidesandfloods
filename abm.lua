@@ -53,20 +53,46 @@ minetest.register_abm({
 	chance = 1,
 	catch_up = false,
 	action=function(pos,node)
+		local cardinal_pos ={
+				{x=pos.x+1, y=pos.y, z=pos.z},
+				{x=pos.x-1, y=pos.y, z=pos.z},
+				{x=pos.x, y=pos.y, z=pos.z+1},
+				{x=pos.x, y=pos.y, z=pos.z-1}
+			}
+		local cardinal_node = {
+				get_node({x=pos.x+1, y=pos.y, z=pos.z}).name,
+				get_node({x=pos.x-1, y=pos.y, z=pos.z}).name,
+				get_node({x=pos.x, y=pos.y, z=pos.z+1}).name,
+				get_node({x=pos.x, y=pos.y, z=pos.z-1}).name
+			}
 		if pos.y < tidesandfloods.sealevel then
-			local cardinal_node = {get_node({x=pos.x+1, y=pos.y, z=pos.z}).name,
-								   get_node({x=pos.x-1, y=pos.y, z=pos.z}).name,
-								   get_node({x=pos.x, y=pos.y, z=pos.z+1}).name,
-								   get_node({x=pos.x, y=pos.y, z=pos.z-1}).name}
+			minetest.set_node(pos,{name="tides:seawater"})
 			for i = 1,4 do
---				minetest.chat_send_all(tostring(cardinal_node[i]))
-				if cardinal_node[i] == ignore then
+			local status = "active"
+				minetest.chat_send_all(
+                tostring(status) .." at (" .. tostring(cardinal_pos[i].x) .. ", " .. tostring(cardinal_pos[i].y) .. ", " .. tostring(cardinal_pos[i].z) .. ") " .. " is " ..  
+					tostring(minetest.compare_block_status(cardinal_pos[i], status))
+				)
+				if minetest.compare_block_status(cardinal_pos[i], status) ~= true then
+					minetest.chat_send_all(
+						i .. tostring(minetest.compare_block_status(cardinal_pos[i], status))
+					)
+--				if cardinal_node[i] == ignore then
+--					minetest.chat_send_all(tostring(cardinal_node[i]))
 					minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="tides:offshore_water"})
-					minetest.set_node(pos,{name="tides:seawater"})
+					
 				break
 				end
 			end
 		end
+		if pos.y == tidesandfloods.sealevel then
+			for i = 1,4 do
+				if air_and_friends[cardinal_node[i]] then
+					minetest.set_node(cardinal_pos[i],{name="tides:wave"})
+				end
+			end
+		end
+
 	end
 })
 
