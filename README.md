@@ -50,6 +50,7 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - or turn plants into items
 - trigger falling lilypads
 - add tidal currents/water currents
+- add sound
 
 
 https://user-images.githubusercontent.com/27686967/181776097-257afdd9-03cc-4dd6-96d9-9ea23b6b80a6.mp4
