@@ -35,7 +35,6 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
 - re-implement filling "pools" that stays filled at low tide
 ## next
-- fix liquid swimming physics
 - handle vegetation
 - handle floating things (I'll probably directly edit things like lilypads so they fall, but then they have to float upward somehow)
 - re-implement naturally occurring tides
