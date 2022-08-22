@@ -33,7 +33,6 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 
 ## first
 - replace water during terrain gen (still keep LBMs to support already loaded worlds)
-- make water spread to airlike and floodables nodes
 ## next
 - re-implement filling "pools" that stays filled at low tide
 - re-implement naturally occurring tides
@@ -51,7 +50,8 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - trigger falling lilypads
 - add tidal currents/water currents
 - add sound
-
+- add mechanic to allow formation of pockets of air in coastal caves
+- make game agnostic?
 
 https://user-images.githubusercontent.com/27686967/181776097-257afdd9-03cc-4dd6-96d9-9ea23b6b80a6.mp4
 
