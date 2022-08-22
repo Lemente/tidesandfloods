@@ -1,12 +1,19 @@
-local waterlily = {"flowers:waterlily","flowers:waterlily_waving"}
+--local waterlily = {"flowers:waterlily","flowers:waterlily_waving"}
 --minetest.chat_send_all("test")
 --for i = 1,2 do
 --	minetest.chat_send_all("do the waterlily")
 --	if minetest.registered_nodes["flowers:waterlily_waving"] == true then
-	minetest.chat_send_all(tostring("flowers:waterlily") .. " exist")
-	minetest.override_item("flowers:waterlily", {
-		groups = {falling_node = 1, float = 1, bouncy = 1, waving = 3, snappy = 3, flower = 1, flammable = 1},
-		floodable = false,
+--minetest.chat_send_all(tostring("flowers:waterlily") .. " exist")
+minetest.override_item("flowers:waterlily", {
+	groups = {falling_node = 1, float = 1, bouncy = 1, waving = 3, snappy = 3, flower = 1, flammable = 1},
+	floodable = false,
+})
+
+--minetest.chat_send_all(tostring("flowers:waterlily_waving") .. " exist")
+minetest.override_item("flowers:waterlily_waving", {
+	groups = {falling_node = 1, float = 1, bouncy = 1, waving = 3, snappy = 3, flower = 1, flammable = 1},
+	floodable = false,
+})
 
 --[[		on_place = function(itemstack, placer, pointed_thing)
 			local pos = pointed_thing.above
@@ -36,7 +43,7 @@ local waterlily = {"flowers:waterlily","flowers:waterlily_waving"}
 
 			return itemstack
 		end]]
-		})
+--		})
 --	else
 --	minetest.chat_send_all(tostring(waterlily[i]) .. " doesn't exist")
 --	end
