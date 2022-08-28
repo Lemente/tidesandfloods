@@ -31,11 +31,12 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 
 # To Do
 
-## first
+## high-priority
 - replace water during terrain gen (still keep LBMs as an option to support already loaded worlds)
+- re-implement filling "pools" that stays filled at low tide
+## low priority
 - fixe shorewater forming around vegetation
 - fixe shorewater lines forming with LBMs
-- re-implement filling "pools" that stays filled at low tide
 ## next
 - re-implement naturally occurring tides
 - load visible mapblock once to update their tide levels (avoid messy looking horizon)
@@ -43,15 +44,15 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - make plants turn into plantmatter layer, make it float, react to moving water, deposit as wrack lines
 - or turn plants into items
 - trigger falling lilypads/float group
-## later
+## later/maybe
 - tweak texture colors
-- improve river connections?
 - make all water nodes work with the bucket
 - create new seawater node not affected by tides
-- add tidal currents/water currents
 - add sound
 - add mechanic to allow formation of pockets of air in coastal caves
 - make game agnostic?
+- add tidal currents/water currents?
+- improve river connections?
 
 https://user-images.githubusercontent.com/27686967/181776097-257afdd9-03cc-4dd6-96d9-9ea23b6b80a6.mp4
 
