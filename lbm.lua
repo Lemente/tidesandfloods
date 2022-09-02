@@ -212,8 +212,40 @@ minetest.register_lbm({
 				local tide_diff = tidesandfloods.sealevel-pos.y
 				for i = 1,tide_diff do
 					local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
-					if air_and_friends[node_above_i] then
+					if can_it_flood(node_above_i) then
 						minetest.set_node({x=pos.x, y=pos.y+i, z=pos.z},{name="tides:offshore_water"})
+					end
+				end
+			end
+		end
+	end
+})
+
+
+
+-- WAVE LBM
+minetest.register_lbm({
+	name="tidesandfloods:wave_lbm",
+	nodenames = {"tides:wave"},
+	run_at_every_load=true,
+	action = function(pos,node)
+	if pos.y > tidesandfloods.sealevel then
+		minetest.remove_node(pos)
+		if pos.y == tidesandfloods.sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
+			minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:seawater"})
+			do return end
+		end
+	end
+	local node_above = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name
+	local drawtype = minetest.registered_nodes[node_above].drawtype
+	if drawtype == "airlike" or drawtype == "flowing_liquid" then
+			if pos.y < tidesandfloods.sealevel then
+				minetest.set_node(pos,{name="tides:seawater"})
+				local tide_diff = tidesandfloods.sealevel-pos.y
+				for i = 1,tide_diff do
+					local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
+					if can_it_flood(node_above_i) then
+						minetest.set_node({x=pos.x, y=pos.y+i, z=pos.z},{name="tides:seawater"})
 					end
 				end
 			end
