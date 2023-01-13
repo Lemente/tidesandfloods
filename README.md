@@ -53,6 +53,7 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 - make game agnostic?
 - add tidal currents/water currents?
 - improve river connections?
+- settingtype option for tidal range, supertide events, water continuously rising, speed
 
 https://user-images.githubusercontent.com/27686967/181776097-257afdd9-03cc-4dd6-96d9-9ea23b6b80a6.mp4
 
