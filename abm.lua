@@ -28,13 +28,14 @@ local water_or_air = {
 }
 
 -- To DO : target every airlike node?
+--[[
 local air_and_friends = {
 	["air"] = true,
 	["default:water_flowing"] = true,
 	["default:river_water_flowing"] = true,
 	--["tides:wave"] = true,
 	["ignore"] = true --/!\--
-}
+}]]
 
 local water_and_friends = {
 	["default:water_source"] = true,
@@ -57,7 +58,7 @@ minetest.register_abm({
 	interval = abm_long_delay,
 	chance = 1,
 	catch_up = false,
-	action=function(pos,node)
+	action=function(pos)
 	local cardinal_pos =  {
 		{x=pos.x+1, y=pos.y, z=pos.z},
 		{x=pos.x-1, y=pos.y, z=pos.z},
@@ -100,7 +101,7 @@ minetest.register_abm({
 	interval = abm_long_delay,
 	chance = 1,
 	catch_up = false,
-	action=function(pos,node)
+	action=function(pos)
 	local cardinal_pos ={
 		{x=pos.x+1, y=pos.y, z=pos.z},
 		{x=pos.x-1, y=pos.y, z=pos.z},
@@ -144,7 +145,7 @@ minetest.register_abm({
 	interval = abm_short_delay,
 	chance = 1,
 	catch_up = false,
-	action=function(pos,node)
+	action=function(pos)
 	local cardinal_pos =  {
 		{x=pos.x+1, y=pos.y, z=pos.z},
 		{x=pos.x-1, y=pos.y, z=pos.z},
@@ -173,8 +174,8 @@ minetest.register_abm({
 		get_node(cardinal_down_pos[4]).name
 	}
 
-	local edge_x = pos.x % 16
-	local edge_z = pos.z % 16
+--	local edge_x = pos.x % 16
+--	local edge_z = pos.z % 16
 	-- TIDE GOES DOWN
 	if pos.y > tidesandfloods.sealevel then
 		minetest.set_node(pos,{name="air"})
@@ -187,7 +188,7 @@ minetest.register_abm({
 		end)
 		-- CHANGE NODES BELOW
 		if get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "tides:seawater" then
-			if (edge_x == 0 or edge_x == 15) and (edge_z == 0 or edge_z == 15) then
+			if (pos.x % 16 == 0 or pos.x % 16 == 15) and (pos.z % 16 == 0 or pos.z % 16 == 15) then
 				minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:offshore_water"})
 				do return end
 			end
