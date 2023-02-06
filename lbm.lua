@@ -18,13 +18,14 @@ local water_or_air = {
 }
 
 -- To DO : target every airlike node?
+--[[
 local air_and_friends = {
 	["air"] = true,
 	["default:water_flowing"] = true,
 	["default:river_water_flowing"] = true,
 	--		["tides:wave"] = true,
 	["ignore"] = true --/!\--
-}
+}]]
 
 local water_and_friends = {
 	["default:water_source"] = true,
@@ -45,7 +46,7 @@ minetest.register_lbm({
 	name="tidesandfloods:water_source_lbm",
 	nodenames = {"default:water_source"},
 	run_at_every_load=true,
-	action = function(pos,node)
+	action = function(pos)
 	local check_node = {
 		["east"] = get_node({x=pos.x+1, y=pos.y, z=pos.z}).name,
 		["west"] = get_node({x=pos.x-1, y=pos.y, z=pos.z}).name,
@@ -79,7 +80,7 @@ minetest.register_lbm({
 	name="tidesandfloods:seawater_lbm",
 	nodenames = {"tides:seawater"},
 	run_at_every_load=true,
-	action = function(pos,node)
+	action = function(pos)
 	local cardinal_down_pos =  {
 		{x=pos.x+1, y=pos.y-1, z=pos.z},
 		{x=pos.x-1, y=pos.y-1, z=pos.z},
@@ -93,9 +94,8 @@ minetest.register_lbm({
 		get_node(cardinal_down_pos[3]).name,
 		get_node(cardinal_down_pos[4]).name
 	}
-	local edge_x = pos.x % 16
-	local edge_z = pos.z % 16
-
+--	local edge_x = pos.x % 16
+--	local edge_z = pos.z % 16
 	if pos.y > tidesandfloods.sealevel then
 		--			minetest.after(1, function()
 		minetest.remove_node(pos)
@@ -104,7 +104,7 @@ minetest.register_lbm({
 		-- CHANGE NODES BELOW
 		if pos.y == tidesandfloods.sealevel + 1 then
 			if get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "tides:seawater" then -- make node below wave or mapblock edge
-				if (edge_x == 0 or edge_x == 15) and (edge_z == 0 or edge_z == 15) then -- if node border mapblock
+				if (pos.x % 16 == 0 or pos.x % 16 == 15) and (pos.z % 16 == 0 or pos.z % 16 == 15) then -- if node border mapblock
 					minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z},{name="tides:offshore_water"})
 					do return end
 				end
@@ -194,7 +194,7 @@ minetest.register_lbm({
 	name="tidesandfloods:offshore_water_lbm",
 	nodenames = {"tides:offshore_water"},
 	run_at_every_load=true,
-	action = function(pos,node)
+	action = function(pos)
 	if pos.y > tidesandfloods.sealevel then
 		minetest.remove_node(pos)
 		if pos.y == tidesandfloods.sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
@@ -228,7 +228,7 @@ minetest.register_lbm({
 	name="tidesandfloods:wave_lbm",
 	nodenames = {"tides:wave"},
 	run_at_every_load=true,
-	action = function(pos,node)
+	action = function(pos)
 	if pos.y > tidesandfloods.sealevel then
 		minetest.remove_node(pos)
 		if pos.y == tidesandfloods.sealevel + 1 and water_and_friends[get_node({x=pos.x, y=pos.y-1, z=pos.z}).name] then
