@@ -15,8 +15,9 @@ function set_sealevel(v)
 end
 
 dofile(modpath .. "/nodes.lua")
-dofile(modpath .. "/lbm.lua")
-dofile(modpath .. "/abm.lua")
+dofile(modpath .. "/voxelmanip.lua")
+--dofile(modpath .. "/lbm.lua")
+--dofile(modpath .. "/abm.lua")
 if minetest.get_modpath("flowers") ~= nil then
     dofile(modpath .. "/waterlily.lua")
 end

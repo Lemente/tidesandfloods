@@ -32,7 +32,6 @@ https://user-images.githubusercontent.com/27686967/181780172-42193b2a-f621-4290-
 # To Do
 
 ## high-priority
-- replace water during terrain gen (still keep LBMs as an option to support already loaded worlds)
 - re-implement filling "pools" that stays filled at low tide
 ## low priority
 - fixe shorewater forming around vegetation
