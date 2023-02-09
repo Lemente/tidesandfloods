@@ -7,8 +7,11 @@ local c_water_or_air = {
 	--[minetest.get_content_id("default:river_water_source")] = true,
 	[minetest.get_content_id("default:river_water_flowing")] = true,
 	[minetest.get_content_id("tides:offshore_water")] = true,
+	[minetest.get_content_id("tides:wave_offshorewater")] = true,
 	[minetest.get_content_id("tides:seawater")] = true,
+	[minetest.get_content_id("tides:wave")] = true,
 	[minetest.get_content_id("tides:shorewater")] = true,
+	[minetest.get_content_id("tides:wave_shorewater")] = true,
 	[minetest.get_content_id("ignore")] = true --/!\--
 }
 

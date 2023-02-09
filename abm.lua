@@ -174,8 +174,8 @@ minetest.register_abm({
 		get_node(cardinal_down_pos[4]).name
 	}
 
---	local edge_x = pos.x % 16
---	local edge_z = pos.z % 16
+	local edge_x = pos.x % 16
+	local edge_z = pos.z % 16
 	-- TIDE GOES DOWN
 	if pos.y > tidesandfloods.sealevel then
 		minetest.set_node(pos,{name="air"})
