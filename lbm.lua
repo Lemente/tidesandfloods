@@ -42,7 +42,7 @@ local water_and_friends = {
 }
 
 -- REPLACE SEA WATER AT GENERATION with tides:seawater; tides:offshore_water (surface only); tides:waves (surface only)
-minetest.register_lbm({
+--[[minetest.register_lbm({
 	name="tidesandfloods:water_source_lbm",
 	nodenames = {"default:water_source"},
 	run_at_every_load=true,
@@ -58,7 +58,7 @@ minetest.register_lbm({
 	local cardinal = {"north", "south", "east", "west"}
 	if check_node["up"] == "air" then
 		for i = 1,4 do
-			if water_or_air[check_node[cardinal[i]]] == nil then --if cardinal node name not in list, then
+			if water_or_air[check_node[cardinal[i] ] ] == nil then --if cardinal node name not in list, then
 				minetest.set_node(pos,{name="tides:shorewater"})
 				do return end
 				break
@@ -74,6 +74,7 @@ minetest.register_lbm({
 	minetest.set_node(pos,{name="tides:seawater"})-- turn every other node into seawater
 end
 })
+]]--
 
 -- SEAWATER LBM
 minetest.register_lbm({
@@ -119,18 +120,20 @@ minetest.register_lbm({
 			do return end
 		end
 	end
-	local node_above = get_node({x=pos.x, y=pos.y+1, z=pos.z}).name
-	local drawtype = minetest.registered_nodes[node_above].drawtype
-	if drawtype == "airlike" or drawtype == "flowingliquid" then
-		if pos.y > tidesandfloods.sealevel then
-			minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="air"})
-		elseif pos.y < tidesandfloods.sealevel then
-			local tide_diff = tidesandfloods.sealevel-pos.y
-			for i = 1,tide_diff do
-				local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
-				local drawtype = minetest.registered_nodes[node_above_i].drawtype
-				if drawtype == "airlike" or drawtype == "flowing_liquid" then
-					minetest.set_node({x=pos.x, y=pos.y+i, z=pos.z},{name="tides:seawater"})
+	if get_node(pos:offset(0, 1, 0)).name ~= "ignore" then
+		local node_above = get_node(pos:offset(0, 1, 0)).name
+		local drawtype = minetest.registered_nodes[node_above].drawtype
+		if drawtype == "airlike" or drawtype == "flowingliquid" then
+			if pos.y > tidesandfloods.sealevel then
+				minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z},{name="air"})
+			elseif pos.y < tidesandfloods.sealevel then
+				local tide_diff = tidesandfloods.sealevel-pos.y
+				for i = 1,tide_diff do
+					local node_above_i = get_node({x=pos.x, y=pos.y+i, z=pos.z}).name
+					local drawtype = minetest.registered_nodes[node_above_i].drawtype
+					if drawtype == "airlike" or drawtype == "flowing_liquid" then
+						minetest.set_node({x=pos.x, y=pos.y+i, z=pos.z},{name="tides:seawater"})
+					end
 				end
 			end
 		end

@@ -57,13 +57,15 @@ minetest.register_chatcommand("compare_block_status", {
     end,
 })
 
- can_it_flood = function(node)
+can_it_flood = function(node)
     local plant = minetest.get_item_group(node, "flora")
     + minetest.get_item_group(node, "grass")
     + minetest.get_item_group(node, "flowers")
     + minetest.get_item_group(node, "sapling")
     local float = minetest.get_item_group(node, "float")
-    local floodable = minetest.registered_nodes[node].floodable
+    if minetest.registered_nodes[node].floodable then
+        local floodable = minetest.registered_nodes[node].floodable
+    end
     local drawtype = minetest.registered_nodes[node].drawtype
 
     if drawtype == "airlike"

@@ -30,17 +30,18 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 	}
 	for z = minp.z, maxp.z do
 		for y = minp.y, maxp.y do
+			local vi = area:index(minp.x, y, z)
 			for x = minp.x, maxp.x do
-				local vi = area:index(x, y, z)
+--				local vi = area:index(x, y, z)
 				if data[vi] == c_water then
 					local check_node = {
-						["east"] = data[area:index(x+1, y, z)],
-						["west"] = data[area:index(x-1, y, z)],
-						["up"]   = data[area:index(x, y+1, z)],
-						--	["down"] = data[area:index({x=pos.x, y=pos.y-1, z=pos.z})],
-						["north"] = data[area:index(x, y, z+1)],
-						["south"] = data[area:index(x, y, z-1)]
-					}
+							["east"] = data[area:index(x+1, y, z)],
+							["west"] = data[area:index(x-1, y, z)],
+							["up"]   = data[area:index(x, y+1, z)],
+							--	["down"] = data[area:index({x=pos.x, y=pos.y-1, z=pos.z})],
+							["north"] = data[area:index(x, y, z+1)],
+							["south"] = data[area:index(x, y, z-1)]
+						}
 					local cardinal = {"north", "south", "east", "west"}
 					--first turn any water into tidewater
 					data[vi] = c_tidewater
@@ -58,6 +59,7 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 						end
 					end
 				end
+			vi = vi + 1
 			end
 		end
 	end
