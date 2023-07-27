@@ -41,8 +41,11 @@ local water_and_friends = {
 	["ignore"] = true --/!\--
 }
 
+
 -- REPLACE SEA WATER AT GENERATION with tides:seawater; tides:offshore_water (surface only); tides:waves (surface only)
---[[minetest.register_lbm({
+
+if minetest.settings:get_bool("fixwater_generated_mapblocks") then
+minetest.register_lbm({
 	name="tidesandfloods:water_source_lbm",
 	nodenames = {"default:water_source"},
 	run_at_every_load=true,
@@ -74,7 +77,7 @@ local water_and_friends = {
 	minetest.set_node(pos,{name="tides:seawater"})-- turn every other node into seawater
 end
 })
-]]--
+end
 
 -- SEAWATER LBM
 minetest.register_lbm({

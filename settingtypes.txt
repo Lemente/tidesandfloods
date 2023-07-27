@@ -1,0 +1,5 @@
+# Set to false if you are using the mod in a new world (small performance increase)
+# Keep on true to use in previously generated mapblocks
+# deactivating then reactivating might make some mapblocks unfixable
+
+fixwater_generated_mapblocks (Replace water in already generated mapblocks) bool true
