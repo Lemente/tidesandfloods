@@ -74,13 +74,14 @@ minetest.register_abm({
 	}
 	-- trigger receding tide
 	if pos.y > tidesandfloods.sealevel then
+		-- the shorewater becomes a "wave" node with a fast ABM that will kickstart the receding tide "animation"
 		minetest.set_node(pos,{name="tides:wave"})
 	-- trigger rising tide
 	elseif pos.y <= tidesandfloods.sealevel then
 		local count_water = 0
 		for i = 1,4 do
 			if can_it_flood(cardinal_node[i]) then
-				minetest.set_node(pos,{name="tides:seawater"})
+				minetest.set_node(pos,{name="tides:wave"})--minetest.set_node(pos,{name="tides:seawater"}) --using a wave so hopefully it can start spreading if necessary
 				break
 			end
 			if water_and_friends[cardinal_node[i]] then
@@ -88,7 +89,7 @@ minetest.register_abm({
 			end
 		end
 		if count_water == 4 then
-			minetest.set_node(pos,{name="tides:seawater"})
+			minetest.set_node(pos,{name="tides:seawater"}) --risk of becoming seawater instead of shorewater?
 		end
 	end
 end

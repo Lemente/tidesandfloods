@@ -57,21 +57,28 @@ minetest.register_chatcommand("compare_block_status", {
     end,
 })
 
-can_it_flood = function(node)
-    local plant = minetest.get_item_group(node, "flora")
-    + minetest.get_item_group(node, "grass")
-    + minetest.get_item_group(node, "flowers")
-    + minetest.get_item_group(node, "sapling")
-    local float = minetest.get_item_group(node, "float")
-    if minetest.registered_nodes[node].floodable then
-        local floodable = minetest.registered_nodes[node].floodable
-    end
-    local drawtype = minetest.registered_nodes[node].drawtype
 
-    if drawtype == "airlike"
-    or (node ~= "tides:wave" and (drawtype == "flowingliquid" or floodable))
-    or (drawtype == "plantlike" and plant >= 1)
-    or float >= 1 then
-    return true
-    else return false end
+can_it_flood = function(node)
+    --to not cause a loop (maybe move it outside of the function?)
+    if node == "tides:wave" then return false end
+    --check the node groups and parameters
+    local def = minetest.registered_nodes[node] or {}
+    local drawtype = def.drawtype
+    local function part_of_any_group(itemname, ...) --move outside of the function only if I need it elsewhere?
+        local groups = def.groups or {}
+        for _, v in ipairs({...}) do
+            if groups[v] and groups[v] > 0 then return true end
+        end
+    end
+    if drawtype == "airlike" --start with the most common
+        or drawtype == "flowingliquid" --continue with the other drawtype
+        or def.floodable --does this require an extra check compared to checking a drawtype?
+        or (drawtype == "plantlike" --end with the most complicated
+            and part_of_any_group(node, "flora", "grass", "flowers", "saplings", "float","mushroom")
+            )
+    then
+        return true
+    else
+        return false
+    end
 end
