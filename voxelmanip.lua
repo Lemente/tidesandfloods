@@ -19,8 +19,8 @@ local c_water_or_air = {
 minetest.register_on_generated(function(minp, maxp, blockseed)
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local data = vm:get_data()
-	local c_air = minetest.get_content_id("air")
-	local c_water = minetest.get_content_id("default:water_source")
+	local c_air = minetest.CONTENT_AIR
+	local c_water = minetest.get_content_id("mapgen_water_source") --minetest.get_content_id("default:water_source")
 	local c_offshorewater = minetest.get_content_id("tides:offshore_water")
 	local c_shorewater = minetest.get_content_id("tides:shorewater")
 	local c_tidewater = minetest.get_content_id("tides:seawater")
@@ -28,11 +28,13 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 		MinEdge = emin,
 		MaxEdge = emax
 	}
+
 	for z = minp.z, maxp.z do
 		for y = minp.y, maxp.y do
 			local vi = area:index(minp.x, y, z)
 			for x = minp.x, maxp.x do
---				local vi = area:index(x, y, z)
+
+
 				if data[vi] == c_water then
 					local check_node = {
 							["east"] = data[area:index(x+1, y, z)],
@@ -59,6 +61,8 @@ minetest.register_on_generated(function(minp, maxp, blockseed)
 						end
 					end
 				end
+
+
 			vi = vi + 1
 			end
 		end

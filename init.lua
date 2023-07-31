@@ -1,10 +1,11 @@
 local modpath = minetest.get_modpath("tidesandfloods")
 
-tidesandfloods = {sealevel = 1}
+
+tidesandfloods = {water_level = minetest.get_mapgen_setting("water_level")}
 
 storage = minetest.get_mod_storage()
-if tonumber(storage:get_int("sealevel")) == nil then
-    storage:set_string("sealevel", 1)
+if tonumber(storage:get_int("sealevel")) == 0 then
+    storage:set_int("sealevel", tidesandfloods.water_level)
 end
 tidesandfloods.sealevel = tonumber(storage:get_int("sealevel"))
 
